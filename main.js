@@ -17,7 +17,7 @@ musica.loop = true;
 let tempo = document.querySelector('#timer');
 let banner = document.querySelector('.app__image');
 let title = document.querySelector('.app__title');
-let tempoDecorrido = 5;
+let tempoDecorrido = 1500;
 let intervalorId = null
 
 musicaFocoInput.addEventListener('change', () => {
@@ -30,21 +30,25 @@ musicaFocoInput.addEventListener('change', () => {
 })
 
 foco_btn.addEventListener('click', () => {
+    tempoDecorrido = 1500;
     alterarContexto('foco');
-    foco_btn.classList.add('active');  
+    foco_btn.classList.add('active');
 })
 
 curto_btn.addEventListener('click', () => {
+    tempoDecorrido = 300;
     alterarContexto('descanso-curto');
     curto_btn.classList.add('active');
 })
 
 longo_btn.addEventListener('click', () => {
+    tempoDecorrido = 900;
     alterarContexto('descanso-longo');
     longo_btn.classList.add('active');
 })
 
 function alterarContexto(contexto){
+    mostrarTempo();
     botoes.forEach(function (contexto){
         contexto.classList.remove('active');
     })
@@ -68,13 +72,13 @@ function alterarContexto(contexto){
 
 const contagemRegressiva = () => {
     if(tempoDecorrido <= 0) {
-        //beep.play();
+        beep.play();
         alert('Tempo finalizado');
         zerar();
         return
     }
     tempoDecorrido--;
-    console.log(`Temporizador: ${tempoDecorrido}`);
+    mostrarTempo();
 }
 
 startPause_btn.addEventListener('click', iniciarOuPausar);
@@ -97,3 +101,11 @@ function zerar(){
     comecarOuPausar_img.setAttribute('src', '/imagens/play_arrow.png')
     intervalorId = null;
 }
+
+function mostrarTempo() {
+    const valorTempo = new Date(tempoDecorrido * 1000);
+    const tempoFormatado = valorTempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'})
+    tempo.innerHTML = `${tempoFormatado}`
+}
+
+mostrarTempo();
