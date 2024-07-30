@@ -3,6 +3,8 @@ const foco_btn = document.querySelector('.app__card-button--foco');
 const curto_btn = document.querySelector('.app__card-button--curto');
 const longo_btn = document.querySelector('.app__card-button--longo');
 const startPause_btn = document.querySelector('#start-pause');
+const comecarOuPausar_btn = document.querySelector('#start-pause span')
+const comecarOuPausar_img = document.querySelector('.app__card-primary-butto-icon')
 const botoes = document.querySelectorAll('.app__card-button');
 const musicaFocoInput = document.querySelector('#alternar-musica');
 
@@ -66,9 +68,9 @@ function alterarContexto(contexto){
 
 const contagemRegressiva = () => {
     if(tempoDecorrido <= 0) {
-        zerar();
-        beep.play();
+        //beep.play();
         alert('Tempo finalizado');
+        zerar();
         return
     }
     tempoDecorrido--;
@@ -85,9 +87,13 @@ function iniciarOuPausar(){
     }
     intervalorId = setInterval(contagemRegressiva, 1000);
     play.play();
+    comecarOuPausar_btn.textContent = 'Pausar'
+    comecarOuPausar_img.setAttribute('src', '/imagens/pause.png')
 }
 
 function zerar(){
     clearInterval(intervalorId);
+    comecarOuPausar_btn.textContent = 'Começar'
+    comecarOuPausar_img.setAttribute('src', '/imagens/play_arrow.png')
     intervalorId = null;
 }
